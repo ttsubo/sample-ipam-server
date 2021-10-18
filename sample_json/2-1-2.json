@@ -1,0 +1,12 @@
+{
+    "fixed_ip": {
+        "subnet_id": "22222222-2222-2222-2222-222222222222",
+        "allocation_pools": [],
+        "cidr": "2001:db8:1111::/64",
+        "gateway_ip": "2001:db8:1111::1",
+        "mac_address": null,
+        "device_owner": null,
+        "ip_address": null
+    }
+}
+

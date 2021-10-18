@@ -30,7 +30,8 @@ First of all, you should create fixed_ip using "dhcp" as "device_owner"
     >         "cidr": "192.168.100.0/24",
     >         "gateway_ip": "192.168.100.1",
     >         "mac_address": null,
-    >         "device_owner": "dhcp"
+    >         "device_owner": "dhcp",
+    >         "ip_address": null
     >     }
     > }
     > EOF
@@ -43,7 +44,7 @@ First of all, you should create fixed_ip using "dhcp" as "device_owner"
       ]
     }
 
-Secondly,
+Secondly, if you want to assign allocated_ip_address automatically, you can handle it
 
     $ curl -X POST http://127.0.0.1:8080/fixed_ips \
     > -H "Content-Type: application/json" \
@@ -55,7 +56,8 @@ Secondly,
     >         "cidr": "192.168.100.0/24",
     >         "gateway_ip": "192.168.100.1",
     >         "mac_address": null,
-    >         "device_owner": null
+    >         "device_owner": null,
+    >         "ip_address": null
     >     }
     > }
     > EOF
@@ -68,7 +70,7 @@ Secondly,
       ]
     }
 
-Thirdly,
+Thirdly, try it again using allocated_ip_address automatically
 
     $ curl -X POST http://127.0.0.1:8080/fixed_ips \
     > -H "Content-Type: application/json" \
@@ -80,7 +82,8 @@ Thirdly,
     >         "cidr": "192.168.100.0/24",
     >         "gateway_ip": "192.168.100.1",
     >         "mac_address": null,
-    >         "device_owner": null
+    >         "device_owner": null,
+    >         "ip_address": null
     >     }
     > }
     > EOF
@@ -92,6 +95,33 @@ Thirdly,
         }
       ]
     }
+
+Fourthly, if you want to assign fixed_ip_address (ex. 192.168.100.101), you can handle it
+
+    $ curl -X POST http://127.0.0.1:8080/fixed_ips \
+    > -H "Content-Type: application/json" \
+    > -d @- << EOF | jq .
+    > {
+    >     "fixed_ip": {
+    >         "subnet_id": "11111111-1111-1111-1111-111111111111",
+    >         "allocation_pools": [],
+    >         "cidr": "192.168.100.0/24",
+    >         "gateway_ip": "192.168.100.1",
+    >         "mac_address": null,
+    >         "device_owner": null,
+    >         "ip_address": "192.168.100.101"
+    >     }
+    > }
+    > EOF
+    {
+      "fixed_ip": [
+        {
+          "subnet_id": "11111111-1111-1111-1111-111111111111",
+          "ip_address": "192.168.100.101"
+        }
+      ]
+    }
+
 
 And then, you can confirm current fixed_ips for specific subnet
 
@@ -109,13 +139,17 @@ And then, you can confirm current fixed_ips for specific subnet
         {
           "subnet_id": "11111111-1111-1111-1111-111111111111",
           "ip_address": "192.168.100.24"
+        },
+        {
+          "subnet_id": "11111111-1111-1111-1111-111111111111",
+          "ip_address": "192.168.100.101"
         }
       ]
     }
 
 ### (1-2) How to deallocate fixed_ip
 
-If you don't need allocated ip address on fixed_ip, you can release allocated ip address (ex. 192.168.100.7)
+If you don't need allocated_ip_address on fixed_ip, you can release allocated ip address (ex. 192.168.100.24)
 
     $ curl -X DELETE http://127.0.0.1:8080/fixed_ips \
     > -H "Content-Type: application/json" \
@@ -148,6 +182,10 @@ And then, you can confirm current fixed_ips for specific subnet
         {
           "subnet_id": "11111111-1111-1111-1111-111111111111",
           "ip_address": "192.168.100.5"
+        },
+        {
+          "subnet_id": "11111111-1111-1111-1111-111111111111",
+          "ip_address": "192.168.100.101"
         }
       ]
     }
@@ -169,7 +207,8 @@ First of all, you should create fixed_ip using "dhcp" as "device_owner"
     >         "cidr": "2001:db8:1111::/64",
     >         "gateway_ip": "2001:db8:1111::1",
     >         "mac_address": null,
-    >         "device_owner": "dhcp"
+    >         "device_owner": "dhcp",
+    >         "ip_address": null
     >     }
     > }
     > EOF
@@ -182,7 +221,7 @@ First of all, you should create fixed_ip using "dhcp" as "device_owner"
       ]
     }
 
-Secondly,
+Secondly, if you want to assign allocated_ip_address automatically, you can handle it
 
     $ curl -X POST http://127.0.0.1:8080/fixed_ips \
     > -H "Content-Type: application/json" \
@@ -194,7 +233,8 @@ Secondly,
     >         "cidr": "2001:db8:1111::/64",
     >         "gateway_ip": "2001:db8:1111::1",
     >         "mac_address": null,
-    >         "device_owner": null
+    >         "device_owner": null,
+    >         "ip_address": null
     >     }
     > }
     > EOF
@@ -207,7 +247,7 @@ Secondly,
       ]
     }
 
-Thirdly,
+Thirdly, try it again using allocated_ip_address automatically
 
     $ curl -X POST http://127.0.0.1:8080/fixed_ips \
     > -H "Content-Type: application/json" \
@@ -219,7 +259,8 @@ Thirdly,
     >         "cidr": "2001:db8:1111::/64",
     >         "gateway_ip": "2001:db8:1111::1",
     >         "mac_address": null,
-    >         "device_owner": null
+    >         "device_owner": null,
+    >         "ip_address": null
     >     }
     > }
     > EOF
@@ -228,6 +269,32 @@ Thirdly,
         {
           "subnet_id": "22222222-2222-2222-2222-222222222222",
           "ip_address": "2001:db8:1111::a"
+        }
+      ]
+    }
+
+Fourthly, if you want to assign fixed_ip_address (ex. 2001:db8:1111::101), you can handle it
+
+    $ curl -X POST http://127.0.0.1:8080/fixed_ips \
+    > -H "Content-Type: application/json" \
+    > -d @- << EOF | jq .
+    > {
+    >     "fixed_ip": {
+    >         "subnet_id": "22222222-2222-2222-2222-222222222222",
+    >         "allocation_pools": [],
+    >         "cidr": "2001:db8:1111::/64",
+    >         "gateway_ip": "2001:db8:1111::1",
+    >         "mac_address": null,
+    >         "device_owner": null,
+    >         "ip_address": "2001:db8:1111::101"
+    >     }
+    > }
+    > EOF
+    {
+      "fixed_ip": [
+        {
+          "subnet_id": "22222222-2222-2222-2222-222222222222",
+          "ip_address": "2001:db8:1111::101"
         }
       ]
     }
@@ -248,13 +315,17 @@ And then, you can confirm current fixed_ips for specific subnet
         {
           "subnet_id": "22222222-2222-2222-2222-222222222222",
           "ip_address": "2001:db8:1111::a"
+        },
+        {
+          "subnet_id": "22222222-2222-2222-2222-222222222222",
+          "ip_address": "2001:db8:1111::101"
         }
       ]
     }
 
 ### (2-2) How to deallocate fixed_ip
 
-If you don't need allocated ip address on fixed_ip, you can release allocated ip address (ex. 2001:db8:1111::6)
+If you don't need allocated ip address on fixed_ip, you can release allocated ip address (ex. 2001:db8:1111::a)
 
     $ curl -X DELETE http://127.0.0.1:8080/fixed_ips \
     > -H "Content-Type: application/json" \
@@ -287,6 +358,10 @@ And then, you can confirm current fixed_ips for specific subnet
         {
           "subnet_id": "22222222-2222-2222-2222-222222222222",
           "ip_address": "2001:db8:1111::9"
+        },
+        {
+          "subnet_id": "22222222-2222-2222-2222-222222222222",
+          "ip_address": "2001:db8:1111::101"
         }
       ]
     }

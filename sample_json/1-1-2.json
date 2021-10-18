@@ -1,0 +1,11 @@
+{
+    "fixed_ip": {
+        "subnet_id": "11111111-1111-1111-1111-111111111111",
+        "allocation_pools": [{"start": "192.168.100.2", "end": "192.168.100.254"}],
+        "cidr": "192.168.100.0/24",
+        "gateway_ip": "192.168.100.1",
+        "mac_address": null,
+        "device_owner": null,
+        "ip_address": null
+    }
+}

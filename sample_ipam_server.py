@@ -314,7 +314,11 @@ def ipam_allocate_ips(subnets):
         gateway_ip = subnet['gateway_ip']
         mac_address = subnet['mac_address']
         device_owner = subnet['device_owner']
-        if mac_address:
+        ip_address = subnet['ip_address']
+
+        if ip_address:
+            ip_request = SpecificAddressRequest(ip_address)
+        elif mac_address:
             ip_request = AutomaticAddressRequest(prefix=cidr, mac=mac_address)
         elif device_owner == "dhcp":
             ip_request = PreferNextAddressRequest()
@@ -356,6 +360,7 @@ def create_fixed_ip():
     gateway_ip = request_info['fixed_ip']['gateway_ip']
     mac_address = request_info['fixed_ip']['mac_address']
     device_owner = request_info['fixed_ip']['device_owner']
+    ip_address = request_info['fixed_ip']['ip_address']
 
     subnets_list = []
     subnets_list.append({'id': subnet_id,
@@ -363,7 +368,8 @@ def create_fixed_ip():
                          'cidr': cidr,
                          'gateway_ip': gateway_ip,
                          'mac_address': mac_address,
-                         'device_owner': device_owner})
+                         'device_owner': device_owner,
+                         'ip_address': ip_address})
     subnets = {'subnets': subnets_list}
     allocated = ipam_allocate_ips(subnets)
     fixed_ip_info = {'fixed_ip': allocated}
